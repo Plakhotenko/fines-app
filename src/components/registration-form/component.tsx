@@ -1,10 +1,12 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { FC, useState, useEffect, useRef, useContext } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikProps } from 'formik';
 import client from '../../client';
 import Input from '../input';
-import validationSchema from './validation-schema';
+import useValidationSchema from './validation-schema';
+import Translate from '../translate';
+import { useTranslate, LangContext } from '../../providers/i18n';
 
 interface IFormValue {
   name: string;
@@ -17,6 +19,13 @@ const useRegistrationForm = () => {
   const formikRef = useRef<FormikProps<IFormValue>>(null);
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState<IFormValue | null>(null);
+  const validationSchema = useValidationSchema();
+  const { lang } = useContext(LangContext);
+  const t = useTranslate();
+
+  useEffect(() => {
+    formikRef.current?.validateForm();
+  }, [lang]);
 
   const handleSubmit = (value: IFormValue) => {
     setFormValue(value);
@@ -40,11 +49,11 @@ const useRegistrationForm = () => {
       });
   }, [formValue]);
 
-  return { loading, handleSubmit, formikRef };
+  return { loading, handleSubmit, formikRef, t, validationSchema };
 };
 
 const RegistrationForm: FC = () => {
-  const { loading, handleSubmit, formikRef } = useRegistrationForm();
+  const { loading, handleSubmit, formikRef, t, validationSchema } = useRegistrationForm();
 
   return (
     <Box sx={{ maxWidth: '500px', mx: 'auto', py: '40px', px: '16px' }}>
@@ -61,16 +70,20 @@ const RegistrationForm: FC = () => {
       >
         <Form>
           <Typography variant="h5" component="h1" mb={2} sx={{ textAlign: 'center' }}>
-            Registration
+            <Translate t="registrationForm.title" />
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', mb: '16px' }}>
-            <Input name="name" label="Name" />
-            <Input name="email" label="Email" />
-            <Input name="password" label="Password" type="password" />
-            <Input name="confirmPassword" label="Confirm password" type="password" />
+            <Input name="name" label={t('registrationForm.name')} />
+            <Input name="email" label={t('registrationForm.email')} />
+            <Input name="password" label={t('registrationForm.password')} type="password" />
+            <Input
+              name="confirmPassword"
+              label={t('registrationForm.confirmPassword')}
+              type="password"
+            />
           </Box>
           <Button variant="contained" sx={{ width: '100%' }} type="submit" loading={loading}>
-            Submit
+            {t('registrationForm.submit')}
           </Button>
         </Form>
       </Formik>

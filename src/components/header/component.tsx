@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import { Container, Typography, Link, Box, List, ListItem } from '@mui/material';
+import Translate from '../translate';
+import LanguageToggle from '../lang-toggle';
 
 const Header: FC = () => (
   <header>
@@ -8,16 +10,24 @@ const Header: FC = () => (
         <Typography variant="h6" component="span">
           Fines App
         </Typography>
-        <List sx={{ display: 'flex' }}>
-          <ListItem>
-            <Link variant="body2">Login</Link>
-          </ListItem>
-          <ListItem>
-            <Link variant="body2">Register</Link>
-          </ListItem>
-        </List>
+        <Box sx={{ display: 'flex' }}>
+          <List sx={{ display: 'flex' }}>
+            <ListItem>
+              <Link variant="body2">
+                <Translate t="header.login" />
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link variant="body2">
+                <Translate t="header.register" />
+              </Link>
+            </ListItem>
+          </List>
+          <LanguageToggle />
+        </Box>
       </Box>
     </Container>
   </header>
 );
+
 export default Header;
