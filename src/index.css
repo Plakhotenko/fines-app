@@ -1,0 +1,7 @@
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+}
+.lang-toggle__list-item {
+  padding: 12px 0;
+}
