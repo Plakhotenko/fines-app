@@ -1,12 +1,12 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import { Container, Typography, Link, Box, List, ListItem } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Translate from '../Translate';
 import LanguageToggle from '../LangToggle';
-import { AuthContext } from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth';
 
 const Header: FC = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { logOut, isLoggedIn } = useAuth();
 
   return (
     <header>
@@ -16,7 +16,7 @@ const Header: FC = () => {
             Fines App
           </Typography>
           <Box sx={{ display: 'flex' }}>
-            {user?.token ? (
+            {isLoggedIn ? (
               <Link onClick={logOut} component="button" variant="body2">
                 <Translate t="header.logout" />
               </Link>

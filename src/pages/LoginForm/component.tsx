@@ -1,15 +1,15 @@
-import React, { FC, useState, useRef, useContext, useEffect } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikProps } from 'formik';
 import { AxiosResponse } from 'axios';
-import { useTranslate, LangContext } from '../../providers/I18n';
+import { useTranslate, useLang } from '../../providers/I18n';
 import Translate from '../../components/Translate';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
 import client from '../../client';
 import { IUser } from '../../models';
-import { AuthContext } from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth';
 
 interface IFormValue {
   email: string;
@@ -21,9 +21,9 @@ const useLoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState<IFormValue | null>(null);
   const validationSchema = useValidationSchema();
-  const { lang } = useContext(LangContext);
+  const { lang } = useLang();
   const t = useTranslate();
-  const { logIn } = useContext(AuthContext);
+  const { logIn } = useAuth();
 
   useEffect(() => {
     formikRef.current?.validateForm();
@@ -79,7 +79,7 @@ const LoginForm: FC = () => {
             <Input name="password" label={t('loginForm.password')} type="password" />
           </Box>
           <Button variant="contained" sx={{ width: '100%' }} type="submit" loading={loading}>
-            {t('loginForm.submit')}
+            <Translate t="loginForm.submit" />
           </Button>
         </Form>
       </Formik>

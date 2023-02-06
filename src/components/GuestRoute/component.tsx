@@ -1,11 +1,11 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth';
 
 const GuestRoute: FC<{ children: JSX.Element }> = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { isLoggedIn } = useAuth();
 
-  if (user?.token) {
+  if (isLoggedIn) {
     return <Navigate to="/dashboard" />;
   }
   return children;

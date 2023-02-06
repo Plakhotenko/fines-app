@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef, useContext } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikProps } from 'formik';
@@ -7,9 +7,9 @@ import client from '../../client';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
 import Translate from '../../components/Translate';
-import { useTranslate, LangContext } from '../../providers/I18n';
+import { useTranslate, useLang } from '../../providers/I18n';
 import { IUser } from '../../models';
-import { AuthContext } from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth';
 
 interface IFormValue {
   name: string;
@@ -23,9 +23,9 @@ const useRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState<IFormValue | null>(null);
   const validationSchema = useValidationSchema();
-  const { lang } = useContext(LangContext);
+  const { lang } = useLang();
   const t = useTranslate();
-  const { logIn } = useContext(AuthContext);
+  const { logIn } = useAuth();
 
   useEffect(() => {
     formikRef.current?.validateForm();

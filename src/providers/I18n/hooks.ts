@@ -15,6 +15,8 @@ const getValueByPath = (obj: Record<string, any>, path: string): any => {
   return current;
 };
 
+export const useLang = () => useContext(LangContext);
+
 export const useTranslate = (): ((t: string) => string) => {
   const { lang } = useContext(LangContext);
   return (t: string) => {

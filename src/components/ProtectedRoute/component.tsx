@@ -1,15 +1,15 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth';
 
 const ProtectedRoute: FC<{ children: JSX.Element; isAdminRoute?: boolean }> = ({
   children,
   isAdminRoute,
 }) => {
   const { pathname } = useLocation();
-  const { user } = useContext(AuthContext);
+  const { user, isLoggedIn } = useAuth();
 
-  if (!user?.token) {
+  if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
 

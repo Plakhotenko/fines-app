@@ -6,17 +6,19 @@ interface IAuthProvider {
   user: IUser | undefined;
   logIn: (user: IUser) => void;
   logOut: () => void;
+  isLoggedIn: boolean;
 }
 
 export const AuthContext = createContext<IAuthProvider>({} as any);
 AuthContext.displayName = 'Auth';
 
-const useAuth = () => {
+const useAuthHook = () => {
   const userRaw = localStorage.getItem('user');
   const cachedUser = userRaw && JSON.parse(userRaw);
 
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser | undefined>(cachedUser);
+  const [isLoggedIn, setLoggedIn] = useState(!!cachedUser);
 
   useEffect(() => {
     if (user) {
@@ -28,20 +30,22 @@ const useAuth = () => {
 
   const logIn = (user: IUser) => {
     setUser(user);
+    setLoggedIn(true);
     navigate('/dashboard');
   };
 
   const logOut = () => {
     setUser(undefined);
+    setLoggedIn(false);
     navigate('/login');
   };
 
-  return { user, logOut, logIn };
+  return { user, logOut, logIn, isLoggedIn };
 };
 
 const AuthProvider: FC<{ children: JSX.Element | JSX.Element[] }> = ({ children }) => {
-  const { user, logOut, logIn } = useAuth();
-  const providerValue = useMemo(() => ({ user, logOut, logIn }), [user]);
+  const { user, logOut, logIn, isLoggedIn } = useAuthHook();
+  const providerValue = useMemo(() => ({ user, logOut, logIn, isLoggedIn }), [user, isLoggedIn]);
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
 };
 
