@@ -1,9 +1,9 @@
 import React, { FC, useContext } from 'react';
 import { Container, Typography, Link, Box, List, ListItem } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import Translate from '../translate';
-import LanguageToggle from '../lang-toggle';
-import { AuthContext } from '../../providers/auth';
+import Translate from '../Translate';
+import LanguageToggle from '../LangToggle';
+import { AuthContext } from '../../providers/Auth';
 
 const Header: FC = () => {
   const { user, logOut } = useContext(AuthContext);

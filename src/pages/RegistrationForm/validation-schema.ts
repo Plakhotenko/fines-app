@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { useTranslate } from '../../providers/i18n';
+import { useTranslate } from '../../providers/I18n';
 
 const useValidationSchema = () => {
   const t = useTranslate();

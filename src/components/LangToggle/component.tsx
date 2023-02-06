@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { Button } from '@mui/material';
-import { Lang, LangContext } from '../../providers/i18n';
+import { Lang, LangContext } from '../../providers/I18n';
 
 const LangToggle: FC = () => {
   const { lang, setLang } = useContext(LangContext);

@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../providers/auth';
+import { AuthContext } from '../../providers/Auth';
 
 const ProtectedRoute: FC<{ children: JSX.Element; isAdminRoute?: boolean }> = ({
   children,

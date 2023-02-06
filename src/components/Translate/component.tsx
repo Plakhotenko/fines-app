@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useTranslate } from '../../providers/i18n';
+import { useTranslate } from '../../providers/I18n';
 
 const Translate: FC<{ t: string }> = ({ t }) => {
   const translate = useTranslate();

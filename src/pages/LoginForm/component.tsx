@@ -1,24 +1,22 @@
-import React, { FC, useState, useEffect, useRef, useContext } from 'react';
+import React, { FC, useState, useRef, useContext, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikProps } from 'formik';
 import { AxiosResponse } from 'axios';
-import client from '../../client';
-import Input from '../input';
+import { useTranslate, LangContext } from '../../providers/I18n';
+import Translate from '../../components/Translate';
+import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
-import Translate from '../translate';
-import { useTranslate, LangContext } from '../../providers/i18n';
+import client from '../../client';
 import { IUser } from '../../models';
-import { AuthContext } from '../../providers/auth';
+import { AuthContext } from '../../providers/Auth';
 
 interface IFormValue {
-  name: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
-const useRegistrationForm = () => {
+const useLoginForm = () => {
   const formikRef = useRef<FormikProps<IFormValue>>(null);
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState<IFormValue | null>(null);
@@ -39,12 +37,9 @@ const useRegistrationForm = () => {
     if (!formValue) return;
     setLoading(true);
     client
-      .post('/register', formValue)
-      .then(() => {
-        const { email, password } = formValue;
-        client.post('/login', { email, password }).then(({ data: user }: AxiosResponse<IUser>) => {
-          logIn(user);
-        });
+      .post('/login', formValue)
+      .then(({ data: user }: AxiosResponse<IUser>) => {
+        logIn(user);
       })
       .catch((error) => {
         const field = error?.response?.data?.field;
@@ -61,8 +56,8 @@ const useRegistrationForm = () => {
   return { loading, handleSubmit, formikRef, t, validationSchema };
 };
 
-const RegistrationForm: FC = () => {
-  const { loading, handleSubmit, formikRef, t, validationSchema } = useRegistrationForm();
+const LoginForm: FC = () => {
+  const { loading, handleSubmit, formikRef, t, validationSchema } = useLoginForm();
 
   return (
     <Box sx={{ maxWidth: '500px', mx: 'auto', py: '40px', px: '16px' }}>
@@ -70,29 +65,21 @@ const RegistrationForm: FC = () => {
         innerRef={formikRef}
         onSubmit={handleSubmit}
         initialValues={{
-          name: '',
           email: '',
           password: '',
-          confirmPassword: '',
         }}
         validationSchema={validationSchema}
       >
         <Form>
           <Typography variant="h5" component="h1" mb={2} sx={{ textAlign: 'center' }}>
-            <Translate t="registrationForm.title" />
+            <Translate t="loginForm.title" />
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', mb: '16px' }}>
-            <Input name="name" label={t('registrationForm.name')} />
-            <Input name="email" label={t('registrationForm.email')} />
-            <Input name="password" label={t('registrationForm.password')} type="password" />
-            <Input
-              name="confirmPassword"
-              label={t('registrationForm.confirmPassword')}
-              type="password"
-            />
+            <Input name="email" label={t('loginForm.email')} />
+            <Input name="password" label={t('loginForm.password')} type="password" />
           </Box>
           <Button variant="contained" sx={{ width: '100%' }} type="submit" loading={loading}>
-            {t('registrationForm.submit')}
+            {t('loginForm.submit')}
           </Button>
         </Form>
       </Formik>
@@ -100,4 +87,4 @@ const RegistrationForm: FC = () => {
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;

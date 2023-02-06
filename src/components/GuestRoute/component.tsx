@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../../providers/auth';
+import { AuthContext } from '../../providers/Auth';
 
 const GuestRoute: FC<{ children: JSX.Element }> = ({ children }) => {
   const { user } = useContext(AuthContext);
