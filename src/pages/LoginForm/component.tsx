@@ -1,15 +1,15 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
-import { Formik, Form, FormikProps } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 import { AxiosResponse } from 'axios';
-import { useTranslate, useLang } from '../../providers/I18n';
+import { useTranslate } from '../../providers/I18n';
 import Translate from '../../components/Translate';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
-import client from '../../client';
 import { IUser } from '../../models';
 import { useAuth } from '../../providers/Auth';
+import { auth } from '../../services';
 
 interface IFormValue {
   email: string;
@@ -17,27 +17,15 @@ interface IFormValue {
 }
 
 const useLoginForm = () => {
-  const formikRef = useRef<FormikProps<IFormValue>>(null);
   const [loading, setLoading] = useState(false);
-  const [formValue, setFormValue] = useState<IFormValue | null>(null);
   const validationSchema = useValidationSchema();
-  const { lang } = useLang();
   const t = useTranslate();
   const { logIn } = useAuth();
 
-  useEffect(() => {
-    formikRef.current?.validateForm();
-  }, [lang]);
-
-  const handleSubmit = (value: IFormValue) => {
-    setFormValue(value);
-  };
-
-  useEffect(() => {
-    if (!formValue) return;
+  const handleSubmit = (formValue: IFormValue, { setFieldError }: FormikHelpers<IFormValue>) => {
     setLoading(true);
-    client
-      .post('/login', formValue)
+    auth
+      .login(formValue)
       .then(({ data: user }: AxiosResponse<IUser>) => {
         logIn(user);
       })
@@ -45,24 +33,23 @@ const useLoginForm = () => {
         const field = error?.response?.data?.field;
         const message = error?.response?.data?.message;
         if (field && message) {
-          formikRef?.current?.setFieldError(field, message);
+          setFieldError(field, message);
         }
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [formValue]);
+  };
 
-  return { loading, handleSubmit, formikRef, t, validationSchema };
+  return { loading, handleSubmit, t, validationSchema };
 };
 
 const LoginForm: FC = () => {
-  const { loading, handleSubmit, formikRef, t, validationSchema } = useLoginForm();
+  const { loading, handleSubmit, t, validationSchema } = useLoginForm();
 
   return (
     <Box sx={{ maxWidth: '500px', mx: 'auto', py: '40px', px: '16px' }}>
       <Formik
-        innerRef={formikRef}
         onSubmit={handleSubmit}
         initialValues={{
           email: '',
