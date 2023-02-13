@@ -1,10 +1,10 @@
 import React, { FC, createContext, useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../models';
+import { IAuth } from '../../models';
 
 interface IAuthProvider {
-  user: IUser | undefined;
-  logIn: (user: IUser) => void;
+  user: IAuth | undefined;
+  logIn: (user: IAuth) => void;
   logOut: () => void;
   isLoggedIn: boolean;
 }
@@ -17,7 +17,7 @@ const useAuthHook = () => {
   const cachedUser = userRaw && JSON.parse(userRaw);
 
   const navigate = useNavigate();
-  const [user, setUser] = useState<IUser | undefined>(cachedUser);
+  const [user, setUser] = useState<IAuth | undefined>(cachedUser);
   const [isLoggedIn, setLoggedIn] = useState(!!cachedUser);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const useAuthHook = () => {
     }
   }, [user]);
 
-  const logIn = (user: IUser) => {
+  const logIn = (user: IAuth) => {
     setUser(user);
     setLoggedIn(true);
     navigate('/dashboard');

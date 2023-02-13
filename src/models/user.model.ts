@@ -1,5 +1,5 @@
 export interface IUser {
+  id: number;
   email: string;
-  role: 'user' | 'admin';
-  token: string;
+  name: string;
 }

@@ -2,12 +2,10 @@ import React, { FC, useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { AxiosResponse } from 'axios';
 import { useTranslate } from '../../providers/I18n';
 import Translate from '../../components/Translate';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
-import { IUser } from '../../models';
 import { useAuth } from '../../providers/Auth';
 import { auth } from '../../services';
 
@@ -26,7 +24,7 @@ const useLoginForm = () => {
     setLoading(true);
     auth
       .login(formValue)
-      .then(({ data: user }: AxiosResponse<IUser>) => {
+      .then(({ data: user }) => {
         logIn(user);
       })
       .catch((error) => {

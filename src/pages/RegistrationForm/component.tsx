@@ -2,12 +2,10 @@ import React, { FC, useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { AxiosResponse } from 'axios';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
 import Translate from '../../components/Translate';
 import { useTranslate } from '../../providers/I18n';
-import { IUser } from '../../models';
 import { useAuth } from '../../providers/Auth';
 import { auth } from '../../services';
 
@@ -30,7 +28,7 @@ const useRegistrationForm = () => {
       .register(formValue)
       .then(() => {
         const { email, password } = formValue;
-        auth.login({ email, password }).then(({ data: user }: AxiosResponse<IUser>) => {
+        auth.login({ email, password }).then(({ data: user }) => {
           logIn(user);
         });
       })
