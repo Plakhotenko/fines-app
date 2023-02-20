@@ -1,12 +1,6 @@
-import axios from 'axios';
+import { InternalAxiosRequestConfig } from 'axios';
 
-const { REACT_APP_API_URL: baseURL } = process.env;
-
-const client = axios.create({
-  baseURL,
-});
-
-client.interceptors.request.use((config) => {
+const authInterceptor = (config: InternalAxiosRequestConfig) => {
   const newConfig = config;
   const authRaw = localStorage.getItem('user');
 
@@ -16,6 +10,6 @@ client.interceptors.request.use((config) => {
   }
 
   return newConfig;
-});
+};
 
-export default client;
+export default authInterceptor;

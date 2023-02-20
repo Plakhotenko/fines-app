@@ -1,10 +1,10 @@
 import client from '../client';
 import { IUser } from '../models';
 
-export const users = (search?: string) =>
+export const getUsers = (search?: string) =>
   client.get<IUser[]>('/users', { ...(search && { params: { search } }) });
 
-export const fine = (data: {
+export const createFine = (data: {
   userId: IUser['id'];
   description: string;
   amount: number;

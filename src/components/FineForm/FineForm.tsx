@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
@@ -25,14 +25,14 @@ const useFineForm = () => {
 
   useEffect(() => {
     admin
-      .users()
+      .getUsers()
       .then(({ data: users }) => setUsers(users))
       .catch(() => setUsers([]));
   }, []);
 
-  const onUserInputChange = debounce((event: any, value: string) => {
+  const handleUserInputChange = debounce((event: SyntheticEvent, value: string) => {
     admin
-      .users(value)
+      .getUsers(value)
       .then(({ data: users }) => setUsers(users))
       .catch(() => setUsers([]));
   }, 1000);
@@ -40,7 +40,7 @@ const useFineForm = () => {
   const handleSubmit = (value: IFormValue, helpers: FormikHelpers<IFormValue>) => {
     setButtonLoading(true);
     admin
-      .fine(value)
+      .createFine(value)
       .then(() => {
         helpers.resetForm();
       })
@@ -49,11 +49,17 @@ const useFineForm = () => {
       });
   };
 
-  return { users, onUserInputChange, handleSubmit, buttonLoading, validationSchema };
+  return { users, handleUserInputChange, handleSubmit, buttonLoading, validationSchema };
 };
 
 const FineForm: FC = () => {
-  const { users, onUserInputChange, handleSubmit, buttonLoading, validationSchema } = useFineForm();
+  const {
+    users,
+    handleUserInputChange,
+    handleSubmit,
+    buttonLoading,
+    validationSchema,
+  } = useFineForm();
 
   return (
     <Formik
@@ -68,7 +74,7 @@ const FineForm: FC = () => {
     >
       <Form>
         <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={2}>
-          <AutocompleteInput options={users} onInputChange={onUserInputChange} />
+          <AutocompleteInput options={users} onInputChange={handleUserInputChange} />
           <Input name="description" label="Description" multiline />
           <Input name="amount" label="Amount" type="number" />
           <DatePickerControl name="deadline" label="Deadline" />

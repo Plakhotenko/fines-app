@@ -1,3 +1,3 @@
-export { default } from './provider';
-export { AuthContext } from './provider';
-export { useAuth } from './hooks';
+export { default } from './Auth';
+export { AuthContext } from './Auth';
+export { useAuth } from './Auth.hooks';

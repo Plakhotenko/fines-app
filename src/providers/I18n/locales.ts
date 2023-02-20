@@ -1,4 +1,4 @@
-import { Lang } from './provider';
+import { Lang } from './I18n';
 
 interface Locale {
   [key: string]: string | Locale;
