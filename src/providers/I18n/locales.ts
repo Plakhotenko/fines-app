@@ -12,7 +12,11 @@ const en: Locale = {
   header: {
     login: 'Login',
     register: 'Register',
-    logout: 'Logout',
+    menu: {
+      logout: 'Logout',
+      settings: 'Settings',
+      dashboard: 'Dashboard',
+    },
   },
   registrationForm: {
     title: 'Registration',
@@ -40,13 +44,23 @@ const en: Locale = {
       required: 'This field is required',
     },
   },
+  updateEmailForm: {
+    submit: 'Update email',
+  },
+  updatePasswordForm: {
+    submit: 'Update password',
+  },
 };
 
 const ua: Locale = {
   header: {
     login: 'Увійти',
     register: 'Зареєструватися',
-    logout: 'Вийти',
+    menu: {
+      logout: 'Вийти',
+      settings: 'Налаштування',
+      dashboard: 'Дашборд',
+    },
   },
   registrationForm: {
     title: 'Зареєструватися',
@@ -73,6 +87,12 @@ const ua: Locale = {
     validation: {
       required: `Обов'язкове поле`,
     },
+  },
+  updateEmailForm: {
+    submit: 'Оновити email',
+  },
+  updatePasswordForm: {
+    submit: 'Оновити пароль',
   },
 };
 

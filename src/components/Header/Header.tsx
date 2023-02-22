@@ -4,9 +4,10 @@ import { Link as RouterLink } from 'react-router-dom';
 import Translate from '../Translate';
 import LanguageToggle from '../LangToggle';
 import { useAuth } from '../../providers/Auth';
+import HeaderMenu from '../HeaderMenu';
 
 const Header: FC = () => {
-  const { logOut, isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   return (
     <header>
@@ -15,11 +16,9 @@ const Header: FC = () => {
           <Typography variant="h6" component="span">
             Fines App
           </Typography>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {isLoggedIn ? (
-              <Link onClick={logOut} component="button" variant="body2">
-                <Translate t="header.logout" />
-              </Link>
+              <HeaderMenu />
             ) : (
               <List sx={{ display: 'flex' }}>
                 <ListItem>

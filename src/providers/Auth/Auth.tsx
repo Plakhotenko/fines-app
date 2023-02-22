@@ -7,6 +7,7 @@ interface IAuthProvider {
   logIn: (user: IAuth) => void;
   logOut: () => void;
   isLoggedIn: boolean;
+  updateUserEmail: (email: IAuth['email']) => void;
 }
 
 export const AuthContext = createContext<IAuthProvider>({} as any);
@@ -40,12 +41,19 @@ const useAuthHook = () => {
     navigate('/login');
   };
 
-  return { user, logOut, logIn, isLoggedIn };
+  const updateUserEmail = (email: IAuth['email']) => {
+    setUser((user) => user && { ...user, email });
+  };
+
+  return { user, logOut, logIn, isLoggedIn, updateUserEmail };
 };
 
 const AuthProvider: FC<{ children: JSX.Element | JSX.Element[] }> = ({ children }) => {
-  const { user, logOut, logIn, isLoggedIn } = useAuthHook();
-  const providerValue = useMemo(() => ({ user, logOut, logIn, isLoggedIn }), [user, isLoggedIn]);
+  const { user, logOut, logIn, isLoggedIn, updateUserEmail } = useAuthHook();
+  const providerValue = useMemo(() => ({ user, logOut, logIn, isLoggedIn, updateUserEmail }), [
+    user,
+    isLoggedIn,
+  ]);
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
 };
 

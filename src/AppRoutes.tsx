@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
+import UserSettings from './pages/UserSettings';
 
 const AppRoutes: FC = () => (
   <Routes>
@@ -39,6 +40,14 @@ const AppRoutes: FC = () => (
       element={
         <ProtectedRoute isAdminRoute>
           <AdminDashboard />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/settings"
+      element={
+        <ProtectedRoute>
+          <UserSettings />
         </ProtectedRoute>
       }
     />
