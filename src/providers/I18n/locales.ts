@@ -1,4 +1,4 @@
-import { Lang } from './provider';
+import { Lang } from './I18n';
 
 interface Locale {
   [key: string]: string | Locale;
@@ -34,6 +34,12 @@ const en: Locale = {
       required: 'This field is required',
     },
   },
+  fineForm: {
+    submit: 'Create',
+    validation: {
+      required: 'This field is required',
+    },
+  },
 };
 
 const ua: Locale = {
@@ -58,6 +64,12 @@ const ua: Locale = {
     email: 'Email',
     password: 'Пароль',
     submit: 'Увійти',
+    validation: {
+      required: `Обов'язкове поле`,
+    },
+  },
+  fineForm: {
+    submit: 'Створити',
     validation: {
       required: `Обов'язкове поле`,
     },
