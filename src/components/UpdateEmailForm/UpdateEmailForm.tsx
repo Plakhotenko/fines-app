@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import * as yup from 'yup';
 import Input from '../Input';
@@ -52,12 +52,12 @@ const UpdateEmailForm: FC = () => {
       }}
     >
       <Form>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <Stack spacing={2}>
           <Input name="email" label="Email" />
           <Button variant="contained" type="submit" loading={loading}>
             <Translate t="updateEmailForm.submit" />
           </Button>
-        </Box>
+        </Stack>
       </Form>
     </Formik>
   );

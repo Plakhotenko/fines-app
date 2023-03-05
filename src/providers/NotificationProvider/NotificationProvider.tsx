@@ -1,16 +1,21 @@
 import React, { FC, createContext, useState, useMemo } from 'react';
 
+const initialContextValue = {
+  notificationText: '',
+  showNotification: () => {},
+};
+
 export const NotificationContext = createContext<{
   notificationText: string;
   showNotification: (t: string) => void;
-}>({} as any);
+}>(initialContextValue);
 
 NotificationContext.displayName = 'NotificationProvider';
 
 const NotificationProvider: FC<{ children: JSX.Element | JSX.Element[] }> = ({ children }) => {
   const [notificationText, setNotificationShown] = useState('');
 
-  const showNotification = (errorText: string) => setNotificationShown(errorText);
+  const showNotification = (notificationText: string) => setNotificationShown(notificationText);
 
   const providerValue = useMemo(() => ({ notificationText, showNotification }), [notificationText]);
 

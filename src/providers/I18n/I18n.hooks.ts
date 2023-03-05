@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LangContext } from './I18n';
+import { LangContext } from './I18nProvider';
 import { locales } from './locales';
 
 const getValueByPath = (obj: Record<string, any>, path: string): any => {

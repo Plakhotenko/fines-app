@@ -53,6 +53,9 @@ const AuthProvider: FC<{ children: JSX.Element | JSX.Element[] }> = ({ children 
   const providerValue = useMemo(() => ({ user, logOut, logIn, isLoggedIn, updateUserEmail }), [
     user,
     isLoggedIn,
+    logOut,
+    logIn,
+    updateUserEmail,
   ]);
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
 };

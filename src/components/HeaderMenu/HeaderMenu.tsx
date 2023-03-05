@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link as RouterLink } from 'react-router-dom';
 import Translate from '../Translate';
 import { useAuth } from '../../providers/Auth';
+import { APP_ROUTES } from '../../constants';
 
 const HeaderMenu: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -26,7 +27,7 @@ const HeaderMenu: FC = () => {
         <MenuIcon />
       </IconButton>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
-        <MenuItem component={RouterLink} to="/dashboard" onClick={handleClose}>
+        <MenuItem component={RouterLink} to={APP_ROUTES.DASHBOARD} onClick={handleClose}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -34,7 +35,7 @@ const HeaderMenu: FC = () => {
             <Translate t="header.menu.dashboard" />
           </ListItemText>
         </MenuItem>
-        <MenuItem component={RouterLink} to="/settings" onClick={handleClose}>
+        <MenuItem component={RouterLink} to={APP_ROUTES.SETTINGS} onClick={handleClose}>
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>

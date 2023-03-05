@@ -1,15 +1,16 @@
-import { Lang } from './I18n';
+import { Lang } from './I18nProvider';
 
-interface Locale {
-  [key: string]: string | Locale;
+interface ILocale {
+  [key: string]: string | ILocale;
 }
 
-interface Locales {
-  [key: string]: Locale;
+interface ILocales {
+  [key: string]: ILocale;
 }
 
-const en: Locale = {
+const en: ILocale = {
   header: {
+    loggedInAs: 'Logged in as:',
     login: 'Login',
     register: 'Register',
     menu: {
@@ -52,8 +53,9 @@ const en: Locale = {
   },
 };
 
-const ua: Locale = {
+const ua: ILocale = {
   header: {
+    loggedInAs: 'Ви увійшли як:',
     login: 'Увійти',
     register: 'Зареєструватися',
     menu: {
@@ -96,7 +98,7 @@ const ua: Locale = {
   },
 };
 
-export const locales: Locales = {
+export const locales: ILocales = {
   [Lang.EN]: en,
   [Lang.UA]: ua,
 };

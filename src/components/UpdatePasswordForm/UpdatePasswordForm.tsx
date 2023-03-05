@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { LoadingButton as Button } from '@mui/lab';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import * as yup from 'yup';
 import Input from '../Input';
 import { profile } from '../../services';
@@ -63,14 +63,14 @@ const UpdatePasswordForm: FC = () => {
       validationSchema={validationSchema}
     >
       <Form>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <Stack spacing={2}>
           <Input name="oldPassword" label="Old password" type="password" />
           <Input name="password" label="New password" type="password" />
           <Input name="confirmPassword" label="Confirm new password" type="password" />
           <Button variant="contained" type="submit" loading={loading}>
             <Translate t="updatePasswordForm.submit" />
           </Button>
-        </Box>
+        </Stack>
       </Form>
     </Formik>
   );
