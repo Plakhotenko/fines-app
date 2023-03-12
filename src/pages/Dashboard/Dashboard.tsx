@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
+import Balance from '../../components/Balance';
 
-const Dashboard: FC = () => <div>Dashboard</div>;
+const Dashboard: FC = () => <Balance />;
 
 export default Dashboard;
