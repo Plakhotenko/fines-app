@@ -7,11 +7,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
+import UserSettings from './pages/UserSettings';
+import { APP_ROUTES } from './constants';
 
 const AppRoutes: FC = () => (
   <Routes>
     <Route
-      path="/login"
+      path={APP_ROUTES.LOGIN}
       element={
         <GuestRoute>
           <LoginForm />
@@ -19,7 +21,7 @@ const AppRoutes: FC = () => (
       }
     />
     <Route
-      path="/register"
+      path={APP_ROUTES.REGISTER}
       element={
         <GuestRoute>
           <RegistrationForm />
@@ -27,7 +29,7 @@ const AppRoutes: FC = () => (
       }
     />
     <Route
-      path="/dashboard"
+      path={APP_ROUTES.DASHBOARD}
       element={
         <ProtectedRoute>
           <Dashboard />
@@ -35,15 +37,23 @@ const AppRoutes: FC = () => (
       }
     />
     <Route
-      path="/admin-dashboard"
+      path={APP_ROUTES.ADMIN_DASHBOARD}
       element={
         <ProtectedRoute isAdminRoute>
           <AdminDashboard />
         </ProtectedRoute>
       }
     />
-    <Route path="/not-found" element={<NotFound />} />
-    <Route path="*" element={<Navigate to="/login" />} />
+    <Route
+      path={APP_ROUTES.SETTINGS}
+      element={
+        <ProtectedRoute>
+          <UserSettings />
+        </ProtectedRoute>
+      }
+    />
+    <Route path={APP_ROUTES.NOT_FOUND} element={<NotFound />} />
+    <Route path="*" element={<Navigate to={APP_ROUTES.LOGIN} />} />
   </Routes>
 );
 

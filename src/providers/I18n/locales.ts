@@ -1,18 +1,23 @@
-import { Lang } from './I18n';
+import { Lang } from './I18nProvider';
 
-interface Locale {
-  [key: string]: string | Locale;
+interface ILocale {
+  [key: string]: string | ILocale;
 }
 
-interface Locales {
-  [key: string]: Locale;
+interface ILocales {
+  [key: string]: ILocale;
 }
 
-const en: Locale = {
+const en: ILocale = {
   header: {
+    loggedInAs: 'Logged in as:',
     login: 'Login',
     register: 'Register',
-    logout: 'Logout',
+    menu: {
+      logout: 'Logout',
+      settings: 'Settings',
+      dashboard: 'Dashboard',
+    },
   },
   registrationForm: {
     title: 'Registration',
@@ -40,13 +45,24 @@ const en: Locale = {
       required: 'This field is required',
     },
   },
+  updateEmailForm: {
+    submit: 'Update email',
+  },
+  updatePasswordForm: {
+    submit: 'Update password',
+  },
 };
 
-const ua: Locale = {
+const ua: ILocale = {
   header: {
+    loggedInAs: 'Ви увійшли як:',
     login: 'Увійти',
     register: 'Зареєструватися',
-    logout: 'Вийти',
+    menu: {
+      logout: 'Вийти',
+      settings: 'Налаштування',
+      dashboard: 'Дашборд',
+    },
   },
   registrationForm: {
     title: 'Зареєструватися',
@@ -74,9 +90,15 @@ const ua: Locale = {
       required: `Обов'язкове поле`,
     },
   },
+  updateEmailForm: {
+    submit: 'Оновити email',
+  },
+  updatePasswordForm: {
+    submit: 'Оновити пароль',
+  },
 };
 
-export const locales: Locales = {
+export const locales: ILocales = {
   [Lang.EN]: en,
   [Lang.UA]: ua,
 };
