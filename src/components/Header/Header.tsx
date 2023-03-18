@@ -12,7 +12,7 @@ const Header: FC = () => {
 
   return (
     <header>
-      <Container>
+      <Container sx={{ pb: 3 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', gap: '16px', alignItems: 'baseline' }}>
             <Typography variant="h6" component="span">

@@ -39,6 +39,14 @@ const en: ILocale = {
       required: 'This field is required',
     },
   },
+  dashboard: {
+    title: 'Balance',
+    button: 'Top up',
+    balanceModal: {
+      title: 'Top up',
+      submit: 'Submit',
+    },
+  },
   fineForm: {
     submit: 'Create',
     validation: {
@@ -82,6 +90,14 @@ const ua: ILocale = {
     submit: 'Увійти',
     validation: {
       required: `Обов'язкове поле`,
+    },
+  },
+  dashboard: {
+    title: 'Баланс',
+    button: 'Поповнити',
+    balanceModal: {
+      title: 'Поповнити баланс',
+      submit: 'Поповнити',
     },
   },
   fineForm: {
