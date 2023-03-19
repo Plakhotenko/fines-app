@@ -1,15 +1,23 @@
 import React, { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../providers/Auth';
+import { useSelector } from 'react-redux';
 import { APP_ROUTES } from '../../constants';
 import { UserRole } from '../../models';
+import { selectIsLoggedIn, selectUser } from '../../store/user/selectors';
+
+const useProtectedRoute = () => {
+  const { pathname } = useLocation();
+  const user = useSelector(selectUser);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  return { pathname, user, isLoggedIn };
+};
 
 const ProtectedRoute: FC<{ children: JSX.Element; isAdminRoute?: boolean }> = ({
   children,
   isAdminRoute,
 }) => {
-  const { pathname } = useLocation();
-  const { user, isLoggedIn } = useAuth();
+  const { pathname, user, isLoggedIn } = useProtectedRoute();
 
   if (!isLoggedIn) {
     return <Navigate to={APP_ROUTES.LOGIN} />;

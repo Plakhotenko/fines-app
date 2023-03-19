@@ -1,18 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { LoadingButton as Button } from '@mui/lab';
 import { Stack } from '@mui/material';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import Input from '../Input';
-import { profile } from '../../services';
 import { useNotification } from '../../providers/NotificationProvider';
 import Translate from '../Translate';
-
-interface IFormValue {
-  oldPassword: string;
-  password: string;
-  confirmPassword: string;
-}
+import { IUpdatePasswordFormValue } from './update-password-form.model';
+import { updatePasswordThunk } from '../../store/user/thunk';
+import { selectUserIsLoading } from '../../store/user/selectors';
 
 const validationSchema = yup.object().shape({
   oldPassword: yup.string().required(),
@@ -24,26 +21,15 @@ const validationSchema = yup.object().shape({
 });
 
 const useUpdatePasswordForm = () => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const loading = useSelector(selectUserIsLoading);
   const { showNotification } = useNotification();
+
   const handleSubmit = (
-    value: IFormValue,
-    { setFieldError, resetForm }: FormikHelpers<IFormValue>
+    formValue: IUpdatePasswordFormValue,
+    formikHelpers: FormikHelpers<IUpdatePasswordFormValue>
   ) => {
-    setLoading(true);
-    profile
-      .updatePassword(value)
-      .then(() => {
-        resetForm();
-        showNotification('Password successfully updated');
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-        if (message) {
-          setFieldError('password', message);
-        }
-      })
-      .finally(() => setLoading(false));
+    dispatch(updatePasswordThunk(formValue, formikHelpers, showNotification));
   };
 
   return { handleSubmit, loading };
