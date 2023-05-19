@@ -1,42 +1,33 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Stack } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import Input from '../Input';
-import { profile } from '../../services';
-import { useAuth } from '../../providers/Auth';
 import { useNotification } from '../../providers/NotificationProvider';
 import Translate from '../Translate';
-
-interface IFormValue {
-  email: string;
-}
+import { selectUser, selectUserIsLoading } from '../../store/user/selectors';
+import { IUpdateEmailFormValue } from './update-email-form.model';
+import { updateEmailThunk } from '../../store/user/thunk';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().min(6).max(40).required(),
 });
 
 const useUpdateEmailForm = () => {
-  const [loading, setLoading] = useState(false);
-  const { user, updateUserEmail } = useAuth();
+  const dispatch = useDispatch();
+  const loading = useSelector(selectUserIsLoading);
+  const user = useSelector(selectUser);
   const { showNotification } = useNotification();
-  const handleSubmit = (value: IFormValue, { setFieldError }: FormikHelpers<IFormValue>) => {
-    setLoading(true);
-    profile
-      .updateEmail(value)
-      .then(() => {
-        updateUserEmail(value.email);
-        showNotification('Email successfully updated');
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-        if (message) {
-          setFieldError('email', message);
-        }
-      })
-      .finally(() => setLoading(false));
+
+  const handleSubmit = (
+    formValue: IUpdateEmailFormValue,
+    formikHelpers: FormikHelpers<IUpdateEmailFormValue>
+  ) => {
+    dispatch(updateEmailThunk(formValue, formikHelpers, showNotification));
   };
+
   return { loading, user, handleSubmit };
 };
 

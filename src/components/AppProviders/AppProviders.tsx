@@ -8,7 +8,6 @@ import { store, persistor } from '../../store';
 import NotificationProvider from '../../providers/NotificationProvider';
 import NotificationBar from '../NotificationBar';
 import I18nProvider from '../../providers/I18n';
-import AuthProvider from '../../providers/Auth';
 
 const AppProviders: FC<{ children: JSX.Element | JSX.Element[] }> = ({ children }) => (
   <Provider store={store}>
@@ -17,9 +16,7 @@ const AppProviders: FC<{ children: JSX.Element | JSX.Element[] }> = ({ children 
         <NotificationProvider>
           <NotificationBar />
           <I18nProvider>
-            <BrowserRouter>
-              <AuthProvider>{children}</AuthProvider>
-            </BrowserRouter>
+            <BrowserRouter>{children}</BrowserRouter>
           </I18nProvider>
         </NotificationProvider>
       </LocalizationProvider>

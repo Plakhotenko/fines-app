@@ -1,14 +1,16 @@
 import React, { FC } from 'react';
 import { Container, Typography, Link, Box, List, ListItem } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Translate from '../Translate';
 import LanguageToggle from '../LangToggle';
-import { useAuth } from '../../providers/Auth';
 import HeaderMenu from '../HeaderMenu';
 import { APP_ROUTES } from '../../constants';
+import { selectIsLoggedIn, selectUser } from '../../store/user/selectors';
 
 const Header: FC = () => {
-  const { isLoggedIn, user } = useAuth();
+  const user = useSelector(selectUser);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
     <header>

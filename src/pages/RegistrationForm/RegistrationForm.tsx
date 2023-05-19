@@ -1,54 +1,34 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikHelpers } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
 import Translate from '../../components/Translate';
 import { useTranslate } from '../../providers/I18n';
-import { useAuth } from '../../providers/Auth';
-import { auth } from '../../services';
-
-interface IFormValue {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { IRegistrationFormValue } from './registration-form.model';
+import { registerUserThunk } from '../../store/user/thunk';
+import { selectUserIsLoading } from '../../store/user/selectors';
 
 const useRegistrationForm = () => {
-  const [loading, setLoading] = useState(false);
+  const loading = useSelector(selectUserIsLoading);
+  const dispatch = useDispatch();
   const validationSchema = useValidationSchema();
   const t = useTranslate();
-  const { logIn } = useAuth();
 
-  const handleSubmit = (formValue: IFormValue, { setFieldError }: FormikHelpers<IFormValue>) => {
-    setLoading(true);
-    auth
-      .register(formValue)
-      .then(() => {
-        const { email, password } = formValue;
-        auth.login({ email, password }).then(({ data: user }) => {
-          logIn(user);
-        });
-      })
-      .catch((error) => {
-        const field = error?.response?.data?.field;
-        const message = error?.response?.data?.message;
-        if (field && message) {
-          setFieldError(field, message);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const handleSubmit = (
+    formValue: IRegistrationFormValue,
+    formikHelpers: FormikHelpers<IRegistrationFormValue>
+  ) => {
+    dispatch(registerUserThunk(formValue, formikHelpers));
   };
 
-  return { loading, handleSubmit, t, validationSchema };
+  return { loading, t, validationSchema, handleSubmit };
 };
 
 const RegistrationForm: FC = () => {
-  const { loading, handleSubmit, t, validationSchema } = useRegistrationForm();
+  const { loading, t, validationSchema, handleSubmit } = useRegistrationForm();
 
   return (
     <Box sx={{ maxWidth: '500px', mx: 'auto', py: '40px', px: '16px' }}>

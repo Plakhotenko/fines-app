@@ -1,49 +1,34 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Typography, Box } from '@mui/material';
 import { LoadingButton as Button } from '@mui/lab';
 import { Formik, Form, FormikHelpers } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslate } from '../../providers/I18n';
 import Translate from '../../components/Translate';
 import Input from '../../components/Input';
 import useValidationSchema from './validation-schema';
-import { useAuth } from '../../providers/Auth';
-import { auth } from '../../services';
-
-interface IFormValue {
-  email: string;
-  password: string;
-}
+import { loginUserThunk } from '../../store/user/thunk';
+import { ILoginFormValue } from './login-form.model';
+import { selectUserIsLoading } from '../../store/user/selectors';
 
 const useLoginForm = () => {
-  const [loading, setLoading] = useState(false);
   const validationSchema = useValidationSchema();
   const t = useTranslate();
-  const { logIn } = useAuth();
+  const loading = useSelector(selectUserIsLoading);
+  const dispatch = useDispatch();
 
-  const handleSubmit = (formValue: IFormValue, { setFieldError }: FormikHelpers<IFormValue>) => {
-    setLoading(true);
-    auth
-      .login(formValue)
-      .then(({ data: user }) => {
-        logIn(user);
-      })
-      .catch((error) => {
-        const field = error?.response?.data?.field;
-        const message = error?.response?.data?.message;
-        if (field && message) {
-          setFieldError(field, message);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const handleSubmit = (
+    formValue: ILoginFormValue,
+    formikHelpers: FormikHelpers<ILoginFormValue>
+  ) => {
+    dispatch(loginUserThunk(formValue, formikHelpers));
   };
 
-  return { loading, handleSubmit, t, validationSchema };
+  return { loading, t, validationSchema, handleSubmit };
 };
 
 const LoginForm: FC = () => {
-  const { loading, handleSubmit, t, validationSchema } = useLoginForm();
+  const { loading, t, validationSchema, handleSubmit } = useLoginForm();
 
   return (
     <Box sx={{ maxWidth: '500px', mx: 'auto', py: '40px', px: '16px' }}>
